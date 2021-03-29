@@ -1,0 +1,55 @@
+.logo{
+    background: #002140;
+    height: 65px;
+    width: 220px;
+    overflow: hidden;
+    color: #fff;
+    font-size: 16px;
+    >img{
+        width: 60px;
+        display: block;
+        margin-right: 15px;
+    }
+}
+.headerBox{
+    padding: 0 12px 0 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,21,41,.08);
+    box-sizing: border-box;
+    height: 65px;
+    .iconfont{
+        font-size: 22px;
+        margin-left: 15px;
+        cursor: pointer;
+    }
+    .nameBox{
+        cursor: pointer;
+        height: 100%;
+        padding: 0 10px;
+        &:hover{
+            background: #eee;
+        }
+        &::before{
+            content: '';
+            display: inline-block;
+            width: 0px;
+            height: 100%;
+            vertical-align: middle;
+        }
+    }
+    .portrait{
+        width: 30px;
+        height: 30px;
+        background: #999;
+        border-radius: 100%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .name{
+        font-size: 14px;
+        margin-left: 10px;
+        display: inline-block;
+        font-weight: normal;
+        vertical-align: middle;
+    }
+}

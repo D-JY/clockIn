@@ -53,8 +53,9 @@ class Login extends React.Component{
         dispatch({ type: 'login/getLoginInfo', payload: { name: this.state.username, password: this.state.password } }).then(data => {
             if (data.success) {
                 localStorage.setItem('token', data.token)
-                localStorage.setItem('user', data.data)
                 this.props.history.replace('/')
+            } else {
+                message.warning(data.message)
             }
         })
     }

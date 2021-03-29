@@ -1,10 +1,16 @@
 import React from 'react'
-import CheckLogin from './checkLogin'
 import Header from './header'
+import Nav from './menu'
+import styles from './index.less'
+import { connect } from 'react-redux'
+
+@connect(({ login }) => ({
+    userInfo: login.userInfo
+}))
 
 class Layouts extends React.Component{
     state = {
-        whiteList: ['/login']
+        whiteList: ['/login', '/404']
     }
     render() {
         const { location: { pathname } } = this.props
@@ -12,11 +18,16 @@ class Layouts extends React.Component{
             return this.props.children
         } else {
             return (
-                <CheckLogin>
+                <div className={styles.box}>
                     <Header></Header>
-                    {this.props.children}
-                </CheckLogin>
-            )
+                    <div className={`${styles.main} flexbox`}>
+                        <Nav></Nav>
+                        <div className="flex">
+                            {this.props.children}
+                        </div>
+                    </div>
+                </div>
+            )   
         }
     }
 }

@@ -20,7 +20,7 @@ service.interceptors.request.use(config => {
 })
 
 export default function request(url, options) {
-    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:3000'
+    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:80' : 'http://localhost:80'
     options.method = options.method ? options.method.toUpperCase() : 'GET'
     // if (options.method === 'GET' && options.params) {
     //   url = url + '?' + qs.stringify(options.params)
@@ -36,6 +36,10 @@ export default function request(url, options) {
         return data.data
     })
     .catch(err => {
-        message.error(JSON.stringify(err), 3)
+        const { status, data } = err.response
+        if (status === 401) {
+            return Promise.resolve(data)
+        }
+        message.error(JSON.stringify(err))
     })
   }

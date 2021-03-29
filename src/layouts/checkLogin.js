@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'dva'
 import { message } from 'antd'
+import { routerRedux } from 'dva'
 
 class CheckLogin extends React.Component{
     state = {
         render: null
     }
     componentDidMount() {
-        const { dispatch, history } = this.props
+        const { dispatch } = this.props
         dispatch({ type: 'login/getUserInfo' }).then(data => {
             if (data.success) {
                 this.setState({
@@ -15,7 +16,7 @@ class CheckLogin extends React.Component{
                 })
             } else {
                 message.warn(data.message)
-                history.replace('/login')
+                dispatch(routerRedux.replace('/login'))
             }
         })
     }
