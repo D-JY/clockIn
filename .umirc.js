@@ -10,7 +10,7 @@ export default {
         immer: true
       },
       dynamicImport: true,
-      title: 'clockIn',
+      title: '智能提醒管理后台',
       dll: false,
       
       routes: {
