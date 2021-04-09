@@ -1,16 +1,21 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import { Result, Button } from 'antd'
 
 class Not extends React.Component {
-    componentDidMount() {
-        console.log(222)
-        const { history } = this.props
-        history.replace('/404')
-    }
     render() {
         return (
-            <div>22222222222</div>
+            <Result
+                status="404"
+                title="404"
+                subTitle="页面未找到"
+                extra={<Button type="primary" onClick={this.back}>返回</Button>}
+            />
         )
+    }
+    back = () => {
+        const { history } = this.props
+        history.go(-1)
     }
 }
 

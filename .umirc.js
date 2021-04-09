@@ -2,6 +2,13 @@
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
+  // routes: [
+  //   { path: '/', component: '../layouts/index.js', routes: [
+  //     { path: '/', component: './user/index.js' },
+  //     { path: '/user', component: './user/index.js' },
+  //     { path: '/notice', component: './notice/index.js' }
+  //   ] }
+  // ],
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {

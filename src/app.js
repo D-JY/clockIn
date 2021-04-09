@@ -6,3 +6,7 @@ export const dva = {
     },
   },
 };
+
+export function patchRoutes(routes) {
+  // console.log(routes, 123)
+}
