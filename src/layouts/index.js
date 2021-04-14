@@ -22,7 +22,7 @@ class Layouts extends React.Component{
                     <Header></Header>
                     <div className={`${styles.main} flexbox`}>
                         <Nav></Nav>
-                        <div className="flex">
+                        <div className={`${styles.main_box} flex`}>
                             {this.props.children}
                         </div>
                     </div>

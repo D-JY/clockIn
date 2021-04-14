@@ -1,4 +1,4 @@
-import { getUserList } from '../../../services/user'
+import { getUserList, addUser, delUser } from '../../../services/user'
 
 export default {
     namespace: 'user',
@@ -11,6 +11,12 @@ export default {
     effects: {
         *getUserList({ payload }, { call, put }) {
             return yield call(getUserList, payload)
+        },
+        *addUser({ payload }, { call }) {
+            return yield call(addUser, payload)
+        },
+        *delUser({ payload }, { call }) {
+            return yield call(delUser, payload)
         }
     }
 }

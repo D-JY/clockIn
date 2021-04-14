@@ -5,35 +5,37 @@ const { Option } = Select
 
 class DataForm extends React.Component{
     componentDidMount() {
-        this.props.onRef(this)
+        this.props.onRef && this.props.onRef(this)
     }
     render() {
         const { getFieldDecorator } = this.props.form
         return (
             <Form
                 layout={this.props.layout}
-                labelCol={{span: this.props.labelWidth, offset: 0 }}>
+                labelCol={{ xl:{span: this.props.labelWidth} }}>
                 {this.props.config.map((val, index) => {
                     return (
                         <Form.Item
+                            style={{width: this.props.width,marginBottom: '10px'}}
                             key={val.key}
                             label={val.label}
                             name={val.key}
-                            labelCol={{span: val.labelWidth, offset: 0 }}
+                            labelCol={{sm: {span: val.labelWidth} }}
                         >
-                            {val.type === 'input' ? 
+                            {(val.type === 'input' || val.type === 'password') ? 
                                 getFieldDecorator(val.key, {
-                                    rules: val.rules || [],
+                                    rules: this.initRules(val.rules) || [],
+                                    validateTrigger: 'onBlur',
                                     initialValue: val.value || ''
                                 })(
-                                    <Input placeholder={val.placeholder || `请输入${val.label}`} />
+                                    <Input style={{width: val.inputWidth || '170px'}} type={val.type === 'password' ? 'password' : 'text'} placeholder={val.placeholder || `请输入${val.label}`} />
                                 ) : 
                             val.type === 'select' ?
                                 getFieldDecorator(val.key, {
                                     rules: val.rules || [],
                                     initialValue: val.value || ''
                                 })(
-                                    <Select style={{width: val.inputWidth}} placeholder={val.placeholder || `请输入${val.label}`}>
+                                    <Select style={{width: val.inputWidth || '170px'}} placeholder={val.placeholder || `请输入${val.label}`}>
                                         {Array.isArray(val.options) && val.options.map(v => <Option key={v.value} value={v.value}>{v.label}</Option>)}
                                     </Select>
                                 ) :
@@ -44,6 +46,26 @@ class DataForm extends React.Component{
                 })}
             </Form>
         )
+    }
+    initRules = (rules) => {
+        if (Array.isArray(rules)) {
+            return rules.map(val => {
+                if (val === 'confirmPassword') {
+                    val = { validator: this.compareToFirstPassword }
+                }
+                return val
+            })
+        } else {
+            return rules
+        }
+    }
+    compareToFirstPassword = (rule, value, callback) => {
+        const { form } = this.props
+        if (value && value !== form.getFieldValue('password')) {
+          callback('两次密码输入不一致');
+        } else {
+          callback()
+        }
     }
     getVal = () => {
         return new Promise((reslove, reject) => {
