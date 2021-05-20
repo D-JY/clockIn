@@ -36,10 +36,12 @@ class User extends React.Component{
             { type: 'password', label: '密码', key: 'password', labelWidth: 5, rules: [{ required: true, message: '请输入密码' }] },
             { type: 'password', label: '确认密码', key: 'confirmPwd', labelWidth: 5, rules: [{ required: true, message: '请输入确认密码' }, 'confirmPassword'] }
         ],
+        updateConfig: [],
         search: {}
     }
     formRef = {}
     tableRef = {}
+    editId = 0
     render() {
         const { userInfo } = this.props
         return (
@@ -57,17 +59,27 @@ class User extends React.Component{
                         columns={this.state.columns}
                         getData={(params) => this.getUserList(params)}
                         search={this.state.search}
+                        editFn={userInfo?.role === 1 ? this.editFn : void 0}
                         deleteFn={userInfo?.role === 1 ? this.deleteFn : void 0}>
                     </DataTable>
                 </div>
                 <Modal
                     title="添加人员"
                     visible={this.state.addVisible}
-                    onOk={this.handleOk}
+                    onOk={this.addSubmit}
                     onCancel={() => this.cancel('addVisible')}
                     okText="确认"
                     cancelText="取消">
-                    <DataForm onRef={(ref) => this.formRef.addForm = ref} config={this.state.addConfig} width="400px"></DataForm>
+                    <DataForm onRef={(ref) => this.formRef.addForm = ref} config={this.state.addConfig} width="400px" layout="horizontal"></DataForm>
+                </Modal>
+                <Modal
+                    title="编辑人员"
+                    visible={this.state.updateVisible}
+                    onOk={this.updateSubmit}
+                    onCancel={() => this.cancel('updateVisible')}
+                    okText="确认"
+                    cancelText="取消">
+                    <DataForm onRef={(ref) => this.formRef.updateForm = ref} config={this.state.updateConfig} width="400px" layout="horizontal"></DataForm>
                 </Modal>
             </div>
         )
@@ -84,7 +96,7 @@ class User extends React.Component{
         })
         
     }
-    handleOk = () => {
+    addSubmit = () => {
         const { dispatch } = this.props
         this.formRef.addForm.getVal().then(val => {
             dispatch({ type: 'user/addUser', payload: {
@@ -103,6 +115,25 @@ class User extends React.Component{
             })
         })
     }
+    updateSubmit = () => {
+        const { dispatch } = this.props
+        this.formRef.updateForm.getVal().then(val => {
+            dispatch({ type: 'user/updateUser', payload: {
+                id: this.editId,
+                name: val.name,
+                password: val.password ? md5(val.password) : void 0,
+                role: val.role
+            } }).then(data => {
+                if (data.success) {
+                    message.success(data.message)
+                    this.setState({ updateVisible: false })
+                    this.tableRef.table.getData()
+                } else {
+                    message.error(data.message)
+                }
+            })
+        })
+    }
     openModile = (name) => {
         this.setState({
             [name]: true
@@ -112,6 +143,18 @@ class User extends React.Component{
         this.setState({
             [name]: false
         })
+    }
+    editFn = (record) => {
+        this.openModile('updateVisible')
+        const { username, role, id } = record
+        this.editId = id
+        const config = [
+            { type: 'input', label: '账号', key: 'name', rules: [{ required: true, message: '请输入账号' }], labelWidth: 5, value: username },
+            { type: 'select', label: '角色', key: 'role', options, rules: [{ required: true, message: '请选择角色' }], labelWidth: 5, value: role },
+            { type: 'password', label: '密码', key: 'password', labelWidth: 5 },
+            { type: 'password', label: '确认密码', key: 'confirmPwd', labelWidth: 5, rules: ['confirmPassword'] }
+        ]
+        this.setState({ updateConfig: config })
     }
     deleteFn = (record) => {
         const { dispatch } = this.props

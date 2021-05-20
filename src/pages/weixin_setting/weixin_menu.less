@@ -1,0 +1,85 @@
+.bg{
+    background: #fff;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 15px;
+}
+.leftBox{
+    width: 300px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    >img{
+        display: block;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    .menuBg{
+        position: absolute;
+        bottom: 10px;
+        left: 13px;
+        width: calc(100% - 26px);
+        background: #f6f6f6;
+        border-top: 1px solid #e7e7e7;
+        height: 40px;
+        box-sizing: border-box;
+        border-bottom-left-radius: 20px;
+        z-index: 1;
+    }
+    .menuBox{
+        position: absolute;
+        bottom: 10px;
+        left: 13px;
+        width: calc(100% - 26px);
+        display: flex;
+        height: 40px;
+        line-height: 40px;
+        box-sizing: border-box;
+        border-bottom-left-radius: 20px;
+        text-align: center;
+        font-size: 16px;
+        z-index: 3;
+        >li{
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+            &:not(:nth-last-of-type(1))::after {
+                content: '';
+                display: block;
+                width: 1px;
+                height: 20px;
+                background: #ececec;
+                position: absolute;
+                right: 0px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+        .icon{
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        .addIcon{
+            font-size: 16px;
+            cursor: pointer;
+        }
+    }
+    .item{
+        width: 100%;
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        background: #eee;
+        color: #333;
+        font-size: 14px;
+        cursor: pointer;
+    }
+}
+.rightBox{
+    padding-left: 30px;
+    box-sizing: border-box;
+    .btn{
+        margin-left: 82px;
+    }
+}

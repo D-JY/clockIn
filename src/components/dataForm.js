@@ -12,30 +12,29 @@ class DataForm extends React.Component{
         return (
             <Form
                 layout={this.props.layout}
-                labelCol={{ xl:{span: this.props.labelWidth} }}>
+                labelCol={{ span: this.props.labelWidth }}
+                wrapperCol={{ span: this.props.wrapperWidth }}>
                 {this.props.config.map((val, index) => {
                     return (
                         <Form.Item
-                            style={{width: this.props.width,marginBottom: '10px'}}
+                            style={{width: this.props.width,marginBottom: this.props.layout === 'horizontal' ? '10px' : 0}}
                             key={val.key}
                             label={val.label}
-                            name={val.key}
-                            labelCol={{sm: {span: val.labelWidth} }}
-                        >
+                            name={val.key}>
                             {(val.type === 'input' || val.type === 'password') ? 
                                 getFieldDecorator(val.key, {
                                     rules: this.initRules(val.rules) || [],
                                     validateTrigger: 'onBlur',
                                     initialValue: val.value || ''
                                 })(
-                                    <Input style={{width: val.inputWidth || '170px'}} type={val.type === 'password' ? 'password' : 'text'} placeholder={val.placeholder || `请输入${val.label}`} />
+                                    <Input style={{width: val.inputWidth || '100%'}} type={val.type === 'password' ? 'password' : 'text'} placeholder={val.placeholder || `请输入${val.label}`} />
                                 ) : 
                             val.type === 'select' ?
                                 getFieldDecorator(val.key, {
                                     rules: val.rules || [],
                                     initialValue: val.value || ''
                                 })(
-                                    <Select style={{width: val.inputWidth || '170px'}} placeholder={val.placeholder || `请输入${val.label}`}>
+                                    <Select style={{width: val.inputWidth || '100%'}} placeholder={val.placeholder || `请输入${val.label}`}>
                                         {Array.isArray(val.options) && val.options.map(v => <Option key={v.value} value={v.value}>{v.label}</Option>)}
                                     </Select>
                                 ) :
@@ -77,12 +76,14 @@ class DataForm extends React.Component{
 }
 DataForm.defaultProps = {
     layout: 'inline',
-    labelWidth: 3,
+    labelWidth: 5,
+    wrapperWidth: 17,
     config: [],
 }
 DataForm.propTypes = {
     layout: PropTypes.string, // 布局方式 inline行内 horizontal块级
     labelWidth: PropTypes.number, // label宽度
+    wrapperWidth: PropTypes.number, // 文本宽度
     config: PropTypes.array.isRequired, // 表格配置
     onRef: PropTypes.func, // 获取组件ref
 }

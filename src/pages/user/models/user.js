@@ -1,4 +1,4 @@
-import { getUserList, addUser, delUser } from '../../../services/user'
+import { getUserList, addUser, delUser, updateUser, getWeixinUserList } from '../../../services/user'
 
 export default {
     namespace: 'user',
@@ -17,6 +17,12 @@ export default {
         },
         *delUser({ payload }, { call }) {
             return yield call(delUser, payload)
+        },
+        *updateUser({ payload }, { call }) {
+            return yield call(updateUser, payload)
+        },
+        *getWeixinUserList({ payload }, { call }) {
+            return yield call(getWeixinUserList, payload)
         }
     }
 }

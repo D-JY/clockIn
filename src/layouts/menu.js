@@ -8,9 +8,12 @@ class Nav extends React.Component{
     state = {
         collapsed: false,
         navList: [
-            { title: '用户管理', icon: 'icon-yonghuguanli', children: [], url: '/user' },
-            { title: '用户通知', icon: 'icon-shezhi', children: [
-                { title: '微信通知', url: '/notice' }
+            { title: '用户管理', icon: 'icon-yonghuguanli', children: [
+               { title: '用户管理', url: '/user' },
+               { title: '微信用户', url: '/user/weixin_user' }
+            ] },
+            { title: '微信设置', icon: 'icon-shezhi', children: [
+                { title: '自定义菜单', url: '/weixin_setting/weixin_menu' }
             ] }
         ]
     }
@@ -41,7 +44,7 @@ class Nav extends React.Component{
                                 }>
                                     {val.children.map((v, k) => {
                                         return (
-                                            <Menu.Item key={`${key}-k`} onClick={() => this.jump(v.url)}>{v.title}</Menu.Item>
+                                            <Menu.Item key={`${key}-${k}`} onClick={() => this.jump(v.url)}>{v.title}</Menu.Item>
                                         )
                                     })}
                                 </SubMenu> : 
