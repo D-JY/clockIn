@@ -6,6 +6,20 @@
   "description": "demo",
   "glyphs": [
     {
+      "icon_id": "6275362",
+      "name": "添加",
+      "font_class": "icon-test",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "795316",
+      "name": "列表",
+      "font_class": "liebiao",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
       "icon_id": "18379488",
       "name": "设 置",
       "font_class": "shezhi",
